@@ -1,11 +1,27 @@
-name: docker
+name: lab09
+
 on:
   push:
+  
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: build docker
-        run: docker build -t logger .
+    work:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+      - run: mkdir -p path/to/artifact
+      - run: echo hello > path/to/artifact/world.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: path/to/artifact/world.txt
+    work1:
+      runs-on: ubuntu-latest
+      steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v3
+        with:
+         name: my-artifact
+         path: path/to/artifact
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: path/to/artifact
